@@ -25,8 +25,6 @@ void setup() {
   oled.clearDisplay();
   oled.setTextSize(2);
   oled.setTextColor(1);
-  // bleKeyboard.begin();
-  // digitalWrite(indicator, 1);
   blink = millis();
 }
 
