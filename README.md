@@ -26,4 +26,4 @@
   - Press and hold for at least 2 Seconds to return from any mode in `BLE control`. This will indicate by turning off the LED light which was lit up before.
 
 ## Circuit Diagram
-  <img src="images/Pocket Console Circuit Diagram.png" width="auto">
+  <img src="images/Circuit Diagram.png" width="auto">
