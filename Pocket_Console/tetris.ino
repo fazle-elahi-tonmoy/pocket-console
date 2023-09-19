@@ -2,7 +2,8 @@ int left = up;
 int right = down;
 int change = SW;
 int speed = BW;
-
+#define WIDTH 64 
+#define HEIGHT 128 
 const char pieces_S_l[2][2][4] = { { { 0, 0, 1, 1 }, { 0, 1, 1, 2 } }, { { 0, 1, 1, 2 }, { 1, 1, 0, 0 } } };
 const char pieces_S_r[2][2][4] = { { { 1, 1, 0, 0 }, { 0, 1, 1, 2 } }, { { 0, 1, 1, 2 }, { 0, 0, 1, 1 } } };
 const char pieces_L_l[4][2][4] = { { { 0, 0, 0, 1 }, { 0, 1, 2, 2 } }, { { 0, 1, 2, 2 }, { 1, 1, 1, 0 } }, { { 0, 1, 1, 1 }, { 0, 0, 1, 2 } }, { { 0, 0, 1, 2 }, { 1, 0, 0, 0 } } };
@@ -16,7 +17,7 @@ const short TYPES = 6;
 word currentType, nextType, rotation;
 short pieceX, pieceY;
 short piece[2][4];
-int interval = 20, score;
+int interval = 20;
 long timer, delayer;
 boolean grid[10][18];
 boolean b1, b2, b3;

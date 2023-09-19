@@ -43,6 +43,7 @@ void loop() {
       else if (r == 5) space_jam();
       else if (r == 6) DXBall();
       else if (r == 7) snake_game();
+      else if(r == 8) tetris();
     }
     oled.clearDisplay();
     oled.invertDisplay(true);

@@ -6,7 +6,7 @@ String menu_show(byte a) {
   else if (a == 5) return "SPACE WAR GAME    ";
   else if (a == 6) return "DX BALL GAME      ";
   else if (a == 7) return "CLASSIC SNAKE GAME";
-  else if (a == 8) return "------------------";
+  else if (a == 8) return "TETRIS GAME";
 }
 
 
