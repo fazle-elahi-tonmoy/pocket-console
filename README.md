@@ -26,12 +26,12 @@
   - Single press BW Button to return to home screen
 
   ### When Using Presentation Mode:
-    - Press and hold SW button for at least 500 milliseconds to trigger `home key` press. This will indicate flashing up the LED light. 
-    - Press up button to go to next slide (key trigger - `right arrow`).
-    - Press down button to go to previous slide (key trigger - `left arrow`).
-    - Press SW button to trigger `page down` key press.
-    - Press BW button to trigger `page up` key press.
-    - Press and hold BW button for at least 500 milliseconds to return to home screen.
+  - Press and hold SW button for at least 500 milliseconds to trigger `home key` press. This will indicate flashing up the LED light. 
+  - Press up button to go to next slide (key trigger - `right arrow`).
+  - Press down button to go to previous slide (key trigger - `left arrow`).
+  - Press SW button to trigger `page down` key press.
+  - Press BW button to trigger `page up` key press.
+  - Press and hold BW button for at least 500 milliseconds to return to home screen.
     
   ### When Using Media Mode:
     - Press and hold SW button for at least 500 milliseconds to trigger `mute sound` press. This will indicate flashing up the LED light. 
