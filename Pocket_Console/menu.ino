@@ -12,60 +12,33 @@ String menu_show(byte a) {
 
 byte menu() {
   oled.clearDisplay();
-  oled.invertDisplay(false);
-  oled.setTextSize(1);
-  oled.display();
   byte cl = 0, b = 1, p = 5, flag = 0, list = 8, temp = 1;
   while (1) {
     if (cl != temp) {
       cl = temp;
       oled.clearDisplay();
-      int j = 0;
-      for (byte i = b; i <= p; i++) {
-        (i == cl) ? oled.setTextColor(0, 1) : oled.setTextColor(1);
-        text(menu_show(i), 2, j + 2);
-        j += 12;
-      }
+      display_icon(cl);
       oled.display();
     }
 
     if (!digitalRead(up)) {
       (side_press(flag) == 1) ? flag = 1 : flag = 0;
       temp++;
-      if (temp > p) {
-        p = temp;
-        b = p - 4;
-      }
-      if (temp > list) {
-        temp = 1;
-        b = temp;
-        p = b + 4;
-      }
+      if (temp > list) temp = 1;
     }
 
     else if (!digitalRead(down)) {
       (side_press(flag) == 1) ? flag = 1 : flag = 0;
       temp--;
-      if (temp < b) {
-        b = temp;
-        p = b + 4;
-      }
-      if (temp < 1) {
-        temp = list;
-        p = temp;
-        b = p - 4;
-      }
+      if (temp < 1) temp = list;
     }
 
     else flag = 0;
 
     byte r = push(SW);
-    if (r) {
-      oled.clearDisplay();
-      oled.display();
-      if (r == 1) return cl;
-      else if (r == 2) return 0;
-    }
+    if (r) return cl;
+    r = push(BW);
+    if (r) return 0;
   }
 }
 
