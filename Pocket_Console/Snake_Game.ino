@@ -1,7 +1,8 @@
 short int pos[400] = { 600, 400, 200, 000 };
 short int foodx, foody, dir = 3, len = 4, dl = 100;
-bool eat = 1, s_b = 0;
-uint32_t m81, m82;
+bool eat = 1;
+uint32_t st1;
+bool sb1 = 1, sb2 = 1;
 
 void snake_game() {
   bool menu = 1;
@@ -24,11 +25,14 @@ r:
     if (eat == 1) {
       food();
       digitalWrite(indicator, HIGH);
-    } 
-    
+    }
+
     else digitalWrite(indicator, LOW);
     draw();
-    motion();
+    if (millis() - st1 > dl) {
+      motion();
+      st1 = millis();
+    }
     button();
     for (short int i = 1; i < len; i++)
       if (pos[0] == pos[i]) {
@@ -89,24 +93,22 @@ void motion() {
 }
 
 void button() {
-  m81 = m82 = millis();
-  while (m82 - m81 < dl) {
-    m82 = millis();
-    if (digitalRead(up) == LOW && s_b == 0) {
+  if (!digitalRead(up)) {
+    if (sb1) {
       dir++;
-      s_b = 1;
-      delay(5);
+      sb1 = 0;
     }
-    if (digitalRead(down) == LOW && s_b == 0) {
+  } else sb1 = 1;
+
+  if (!digitalRead(down)) {
+    if (sb2) {
       dir--;
-      s_b = 1;
-      delay(5);
+      sb2 = 0;
     }
-    if (digitalRead(up) == HIGH && digitalRead(down) == HIGH) s_b = 0;
-    if (dir < 1) dir = 4;
-    else if (dir > 4) dir = 1;
-    if (m82 - m81 < 20) digitalWrite(indicator, LOW);
-  }
+  } else sb2 = 1;
+
+  if (dir < 1) dir = 4;
+  else if (dir > 4) dir = 1;
 }
 
 void food() {

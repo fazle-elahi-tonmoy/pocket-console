@@ -19,7 +19,7 @@ resume:
       ;
 
     while (1) {
-      if (push(up)) {
+      if (push(BW)) {
         hour = 0;
         minute = 0;
         second = 0;

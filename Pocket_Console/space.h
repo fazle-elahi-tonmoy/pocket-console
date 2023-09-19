@@ -1,7 +1,3 @@
-#include <Arduino.h>
-#include <U8g2lib.h>
-U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE);
-
 #define ST_FP 4
 
 /* object types */
@@ -802,7 +798,7 @@ uint8_t st_IsHit(uint8_t objnr, uint8_t x, uint8_t y, uint8_t missle_mask) {
 
 /* update all fire counters */
 uint8_t st_fire_player = 0;
-uint8_t st_fire_period = 51;
+uint8_t st_fire_period = 20;
 uint8_t st_manual_fire_delay = 20;
 uint8_t st_is_fire_last_value = 0;
 

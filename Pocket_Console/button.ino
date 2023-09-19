@@ -23,8 +23,7 @@ byte side_press(byte a) {
   while (digitalRead(up) == LOW || digitalRead(down) == LOW) {
     p++;
     delay(1);
-    if (digitalRead(up) == LOW && digitalRead(down) == LOW) break;
-    if (p >= 500 || a == 1) return 1;
+    if (p >= 500 || (a == 1 && p > 10)) return 1;
   }
   return 0;
 }

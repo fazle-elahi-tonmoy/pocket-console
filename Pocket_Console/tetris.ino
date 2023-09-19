@@ -1,7 +1,7 @@
-int left = up;
-int right = down;
-int change = SW;
-int speed = BW;
+int left = down;
+int right = SW;
+int change = BW;
+int speed = up;
 #define WIDTH 64 
 #define HEIGHT 128 
 const char pieces_S_l[2][2][4] = { { { 0, 0, 1, 1 }, { 0, 1, 1, 2 } }, { { 0, 1, 1, 2 }, { 1, 1, 0, 0 } } };
@@ -23,7 +23,7 @@ boolean grid[10][18];
 boolean b1, b2, b3;
 
 void tetris() {
-  oled.setRotation(1);
+  oled.setRotation(3);
   oled.clearDisplay();
   drawLayout();
   oled.display();

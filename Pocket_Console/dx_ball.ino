@@ -1,3 +1,15 @@
+byte playerX = 12;
+const byte playerW PROGMEM = 18;
+const byte brick_count PROGMEM = 34;
+byte ballX = 30;
+byte ballY = 50;
+byte ballDirectionX = 1;
+byte ballDirectionY = -1;
+byte gameScore = 0;
+byte enX[brick_count];
+byte enY[brick_count];
+bool enL[brick_count];
+
 void DXBall() {
   bricks();
   while (1) {
@@ -36,7 +48,6 @@ void GameReset() {
   ballY = 50;
   ballDirectionX = 1;
   ballDirectionY = -1;
-  gameScore = 0;
   for (int i = 0; i < brick_count; i++)
     enL[i] = 1;
 }
@@ -45,16 +56,14 @@ void gameOver() {
   oled.setTextColor(1);
   oled.clearDisplay();
   oled.setTextSize(2);
-  oled.setCursor(6, 0);
+  text("GAME OVER", 11, 12);
+  text("SCORE:", 11, 36);
   oled.print(gameScore);
-  oled.setCursor(6, 20);
-  oled.print("GAME");
-  oled.setCursor(6, 40);
-  oled.print("OVER");
   oled.setTextSize(0);
   oled.display();
   while (digitalRead(SW))
     ;
+  gameScore = 0;
   GameReset();
 }
 
@@ -85,4 +94,33 @@ void checkColision() {
 
   if (gameScore % brick_count == 0 && gameScore)
     GameReset();
+}
+
+void bricks() {
+  byte i = 6;
+  for (byte j = 0; j < 10; j++)
+    enX[j] = i + j * 12;
+  i = 10;
+  for (byte j = 10; j < 19; j++)
+    enX[j] = i + (j - 10) * 12;
+  i = 14;
+  for (byte j = 19; j < 27; j++)
+    enX[j] = i + (j - 19) * 12;
+  i = 18;
+  for (byte j = 27; j < 34; j++)
+    enX[j] = i + (j - 27) * 12;
+  i = 14;
+  for (byte j = 0; j < 10; j++)
+    enY[j] = i;
+  i = 18;
+  for (byte j = 10; j < 19; j++)
+    enY[j] = i;
+  i = 22;
+  for (byte j = 19; j < 27; j++)
+    enY[j] = i;
+  i = 26;
+  for (byte j = 27; j < 34; j++)
+    enY[j] = i;
+  for (byte j = 0; j < brick_count; j++)
+    enL[j] = 1;
 }
