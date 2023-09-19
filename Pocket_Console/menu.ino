@@ -1,36 +1,45 @@
-String menu_show(byte a) {
-  if (a == 1) return "PRESENTATION MODE ";
-  else if (a == 2) return "MEDIA CONTROL     ";
-  else if (a == 3) return "DIGITAL STOPWATCH ";
-  else if (a == 4) return "FLAPPY BIRD GAME  ";
-  else if (a == 5) return "SPACE WAR GAME    ";
-  else if (a == 6) return "DX BALL GAME      ";
-  else if (a == 7) return "SNAKE GAME        ";
-  else if (a == 8) return "TETRIS GAME       ";
-}
-
-
 byte menu() {
   oled.clearDisplay();
-  byte cl = 0, b = 1, p = 5, flag = 0, list = 8, temp = 1;
+  byte cl = 0, b = 1, p = 2, flag = 0, list = 9, temp = 1, disp;
   while (1) {
     if (cl != temp) {
       cl = temp;
       oled.clearDisplay();
-      display_icon(cl);
+      display_icon(b, p, cl);
       oled.display();
     }
 
     if (!digitalRead(up)) {
       (side_press(flag) == 1) ? flag = 1 : flag = 0;
       temp++;
-      if (temp > list) temp = 1;
+      if (temp > list) {
+        temp = 1;
+        disp = (temp - 1) / 4 + 1;
+        b = disp;
+        p = b + 1;
+      }
+      disp = (temp - 1) / 4 + 1;
+      if (disp > p) {
+        p++;
+        b++;
+      }
     }
 
     else if (!digitalRead(down)) {
       (side_press(flag) == 1) ? flag = 1 : flag = 0;
       temp--;
-      if (temp < 1) temp = list;
+      if (temp < 1) {
+        temp = list;
+        disp = (temp - 1) / 4 + 1;
+        p = disp;
+        b = p - 1;
+      }
+
+      disp = (temp - 1) / 4 + 1;
+      if (disp < b) {
+        p--;
+        b--;
+      }
     }
 
     else flag = 0;

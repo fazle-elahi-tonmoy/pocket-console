@@ -6,13 +6,10 @@ byte push(byte button) {
     while (!digitalRead(button)) {
       delay(10);
       t += 10;
-
-      if (t > 2000) digitalWrite(indicator, 0);
-      else if (t > 500) digitalWrite(indicator, 1);
+      if (t > 500) digitalWrite(indicator, 1);
     }
     digitalWrite(indicator, 0);
-    if (t > 1000) return 3;
-    else if (t > 500) return 2;
+    if (t > 500) return 2;
     else if (t > 0) return 1;
   }
   return 0;
@@ -23,7 +20,7 @@ byte side_press(byte a) {
   while (digitalRead(up) == LOW || digitalRead(down) == LOW) {
     p++;
     delay(1);
-    if (p >= 500 || (a == 1 && p > 10)) return 1;
+    if (p >= 500 || (a == 1 && p > 100)) return 1;
   }
   return 0;
 }

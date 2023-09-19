@@ -12,7 +12,7 @@ bool enL[brick_count];
 
 void DXBall() {
   bricks();
-  while (1) {
+  while (!push(BW)) {
     checkColision();
     checkButtonsGame();
     drawGame();
@@ -21,6 +21,7 @@ void DXBall() {
 
 void drawGame() {
   oled.clearDisplay();
+  oled.setTextSize(1);
   oled.setCursor(40, 0);
   oled.print(gameScore);
   oled.setCursor(2, 0);

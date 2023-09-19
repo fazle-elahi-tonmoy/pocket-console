@@ -35,12 +35,13 @@ void loop() {
     if (r) {
       if (r == 1) presentation();
       else if (r == 2) media();
-      else if (r == 3) stop_watch();
-      else if (r == 4) flappy_bird();
-      else if (r == 5) space_jam();
-      else if (r == 6) DXBall();
-      else if (r == 7) snake_game();
-      else if (r == 8) tetris();
+      else if (r == 3) steering();
+      else if (r == 4) stop_watch();
+      else if (r == 5) flappy_bird();
+      else if (r == 6) space_jam();
+      else if (r == 7) DXBall();
+      else if (r == 8) snake_game();
+      else if (r == 9) tetris();
     }
   }
   if (millis() - blink > 20) {

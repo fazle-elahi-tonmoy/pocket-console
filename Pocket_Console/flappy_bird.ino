@@ -25,7 +25,7 @@ void flappy_bird() {
 
   display.flipScreenVertically();
   display.setFont(ArialMT_Plain_10);
-  while (1) {
+  while (!push(BW)) {
     display.clear();
 
     if (igra == 0) {
