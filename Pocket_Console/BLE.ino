@@ -8,12 +8,13 @@ void presentation() {
   oled.drawBitmap(10, 20, presentation_icon, 24, 24, 1);
   text("PRESENT", 40, 16);
   text(" MODE ", 46, 34);
+  if (ble_connection) oled.drawBitmap(119, 0, Bluetooth_Logo, 8, 8, 1);
   oled.display();
   bool ub = 0, db = 0;
   while (1) {
     if (ble_connection != bleKeyboard.isConnected()) {
       ble_connection = bleKeyboard.isConnected();
-      (ble_connection) ? oled.drawBitmap(119, 0, Bluetooth_Logo, 8, 8, 1) : oled.drawBitmap(119, 0, no_connection, 8, 8, 1);
+      (ble_connection) ? oled.drawBitmap(119, 0, Bluetooth_Logo, 8, 8, 1) : oled.drawBitmap(119, 0, no_connection, 8, 8, 0);
       oled.display();
     }
 
@@ -53,7 +54,7 @@ void media() {
   while (1) {
     if (ble_connection != bleKeyboard.isConnected()) {
       ble_connection = bleKeyboard.isConnected();
-      (ble_connection) ? oled.drawBitmap(119, 0, Bluetooth_Logo, 8, 8, 1) : oled.drawBitmap(119, 0, no_connection, 8, 8, 1);
+      (ble_connection) ? oled.drawBitmap(119, 0, Bluetooth_Logo, 8, 8, 1) : oled.drawBitmap(119, 0, no_connection, 8, 8, 0);
       oled.display();
     }
     byte s = push(SW);
@@ -82,12 +83,7 @@ void media() {
 
 void steering() {
   bool ub = 1, db = 1, sb = 1, bb = 1;
-  if (!ble_connection) {
-    bleKeyboard.begin();
-    while (!ble_connection) ble_connection = bleKeyboard.isConnected();
-    oled.drawBitmap(119, 0, Bluetooth_Logo, 8, 8, 1);
-    oled.display();
-  }
+  if (!ble_connection) bleKeyboard.begin();
   oled.clearDisplay();
   oled.setTextSize(2);
   oled.drawBitmap(10, 20, steering_icon, 24, 24, 1);
@@ -97,52 +93,60 @@ void steering() {
   if (ble_connection) oled.drawBitmap(119, 0, Bluetooth_Logo, 8, 8, 1);
   oled.display();
   while (1) {
-    if (!digitalRead(down)) {
-      if (db) {
-        bleKeyboard.press(KEY_LEFT_ARROW);
-        db = 0;
-      }
-    } else {
-      if (!db) {
-        bleKeyboard.release(KEY_LEFT_ARROW);
-        db = 1;
-      }
+    if (ble_connection != bleKeyboard.isConnected()) {
+      ble_connection = bleKeyboard.isConnected();
+      (ble_connection) ? oled.drawBitmap(119, 0, Bluetooth_Logo, 8, 8, 1) : oled.drawBitmap(119, 0, no_connection, 8, 8, 0);
+      oled.display();
+      if (!ble_connection) bleKeyboard.begin();
     }
+    if (ble_connection) {
+      if (!digitalRead(down)) {
+        if (db) {
+          bleKeyboard.press(KEY_LEFT_ARROW);
+          db = 0;
+        }
+      } else {
+        if (!db) {
+          bleKeyboard.release(KEY_LEFT_ARROW);
+          db = 1;
+        }
+      }
 
-    if (!digitalRead(up)) {
-      if (ub) {
-        bleKeyboard.press(KEY_RIGHT_ARROW);
-        ub = 0;
+      if (!digitalRead(up)) {
+        if (ub) {
+          bleKeyboard.press(KEY_RIGHT_ARROW);
+          ub = 0;
+        }
+      } else {
+        if (!ub) {
+          bleKeyboard.release(KEY_RIGHT_ARROW);
+          ub = 1;
+        }
       }
-    } else {
-      if (!ub) {
-        bleKeyboard.release(KEY_RIGHT_ARROW);
-        ub = 1;
-      }
-    }
 
-    if (!digitalRead(SW)) {
-      if (sb) {
-        bleKeyboard.press(KEY_UP_ARROW);
-        sb = 0;
+      if (!digitalRead(SW)) {
+        if (sb) {
+          bleKeyboard.press(KEY_UP_ARROW);
+          sb = 0;
+        }
+      } else {
+        if (!sb) {
+          bleKeyboard.release(KEY_UP_ARROW);
+          sb = 1;
+        }
       }
-    } else {
-      if (!sb) {
-        bleKeyboard.release(KEY_UP_ARROW);
-        sb = 1;
-      }
-    }
 
-    if (!digitalRead(BW)) {
-      if (bb) {
-        bleKeyboard.press(KEY_DOWN_ARROW);
-        bb = 0;
+      if (!digitalRead(BW)) {
+        if (bb) {
+          bleKeyboard.press(KEY_DOWN_ARROW);
+          bb = 0;
+        }
+      } else {
+        if (!bb) {
+          bleKeyboard.release(KEY_DOWN_ARROW);
+          bb = 1;
+        }
       }
-    } else {
-      if (!bb) {
-        bleKeyboard.release(KEY_DOWN_ARROW);
-        bb = 1;
-      }
-    }
+    } else bleKeyboard.releaseAll();
   }
 }

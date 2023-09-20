@@ -1,7 +1,7 @@
 byte playerX = 12;
 const byte playerW PROGMEM = 18;
 const byte brick_count PROGMEM = 34;
-byte ballX = 30;
+byte ballX = random(1, 126);
 byte ballY = 50;
 byte ballDirectionX = 1;
 byte ballDirectionY = -1;
@@ -17,6 +17,7 @@ void DXBall() {
     checkButtonsGame();
     drawGame();
   }
+  oled.setTextSize(2);
 }
 
 void drawGame() {

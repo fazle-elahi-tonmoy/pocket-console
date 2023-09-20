@@ -8,7 +8,7 @@ BleKeyboard bleKeyboard("BLE Controller");
 #define SW 26
 #define up 19
 #define down 0
-#define BW 18
+#define BW 23
 #define indicator 13
 bool ble_connection = 0;
 int animate = 0;
@@ -25,6 +25,7 @@ void setup() {
   oled.clearDisplay();
   oled.setTextSize(2);
   oled.setTextColor(1);
+  // Serial.begin(115200);
   blink = millis();
 }
 
@@ -44,6 +45,10 @@ void loop() {
       else if (r == 9) tetris();
     }
   }
+
+  r = push(BW);
+  if (r == 2) bleKeyboard.begin();
+
   if (millis() - blink > 20) {
     blink = millis();
     start_screen_refresh();
@@ -52,9 +57,11 @@ void loop() {
 
 void start_screen_refresh() {
   oled.clearDisplay();
+  ble_connection = bleKeyboard.isConnected();
+  (ble_connection) ? oled.drawBitmap(119, 0, Bluetooth_Logo, 8, 8, 1) : oled.drawBitmap(119, 0, no_connection, 8, 8, 0);
   oled.drawBitmap(0, 8, animation[animate], 48, 48, 1);
-  text("POCKET", 55, 12);
-  text("DEVICE", 55, 36);
+  text("POCKET", 55, 16);
+  text("DEVICE", 55, 40);
   oled.display();
   animate = (animate + 1) % FRAME_COUNT;
 }
