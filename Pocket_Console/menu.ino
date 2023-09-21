@@ -1,6 +1,6 @@
 byte menu() {
   oled.clearDisplay();
-  byte cl = 0, b = 1, p = 2, flag = 0, list = 10, temp = 1, disp;
+  byte cl = 0, b = 1, p = 2, flag = 0, list = 11, temp = 1, disp;
   while (1) {
     if (cl != temp) {
       cl = temp;
