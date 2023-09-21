@@ -9,8 +9,8 @@ void stop_watch() {
       if (push(BW)) return;
     while (!digitalRead(SW))
       ;
-
 resume:
+    m = millis();
     while (digitalRead(SW)) {
       time_count();
       drawStop();
@@ -45,7 +45,7 @@ void drawStop() {
 
 void time_count() {
   if (millis() - m >= 1000) {
-    m = millis();
+    m += 1000;
     second++;
     if (second > 59) {
       second = 0;

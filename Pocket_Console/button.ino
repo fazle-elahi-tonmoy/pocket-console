@@ -24,3 +24,13 @@ byte side_press(byte a) {
   }
   return 0;
 }
+
+byte ver_press(byte a) {
+  short int p = 0;
+  while (digitalRead(SW) == LOW || digitalRead(BW) == LOW) {
+    p++;
+    delay(1);
+    if (p >= 500 || (a == 1 && p > 100)) return 1;
+  }
+  return 0;
+}

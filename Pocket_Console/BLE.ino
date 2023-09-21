@@ -150,3 +150,46 @@ void steering() {
     } else bleKeyboard.releaseAll();
   }
 }
+
+void mouse_scroll() {
+  bool flag = 0, ver = 0;
+  bleMouse.begin();
+  oled.clearDisplay();
+  oled.setTextSize(2);
+  oled.drawBitmap(10, 20, mouse_icon, 24, 24, 1);
+  text(" MOUSE ", 40, 16);
+  text("SCROLL", 46, 34);
+  oled.display();
+  while (1) {
+    if (ble_connection != bleMouse.isConnected()) {
+      ble_connection = bleMouse.isConnected();
+      (ble_connection) ? oled.drawBitmap(119, 0, Bluetooth_Logo, 8, 8, 1) : oled.drawBitmap(119, 0, no_connection, 8, 8, 0);
+      oled.display();
+    }
+    if (ble_connection) {
+      if (!digitalRead(up)) {
+        (side_press(flag) == 1) ? flag = 1 : flag = 0;
+        bleMouse.move(0, 0, 0, 1);
+      }
+
+      else if (!digitalRead(down)) {
+        (side_press(flag) == 1) ? flag = 1 : flag = 0;
+        bleMouse.move(0, 0, 0, -1);
+      }
+
+      else flag = 0;
+
+      if (!digitalRead(SW)) {
+        (ver_press(ver) == 1) ? ver = 1 : ver = 0;
+        bleMouse.move(0, 0, 1);
+      }
+
+      else if (!digitalRead(BW)) {
+        (ver_press(ver) == 1) ? ver = 1 : ver = 0;
+        bleMouse.move(0, 0, -1);
+      }
+
+      else ver = 0;
+    }
+  }
+}
