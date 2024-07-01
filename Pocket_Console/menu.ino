@@ -1,5 +1,6 @@
 byte menu() {
   oled.clearDisplay();
+  for (int i = 0; i < 4; i++) playNote(selectionMelody[i], 50);
   byte cl = 0, b = 1, p = 2, flag = 0, list = 11, temp = 1, disp;
   while (1) {
     if (cl != temp) {
@@ -52,7 +53,8 @@ byte menu() {
     r = push(BW);
     if (r) {
       for (int i = 0; i < 4; i++) playNote(returnMelody[i], 70);
-      return 0;}
+      return 0;
+    }
   }
 }
 
