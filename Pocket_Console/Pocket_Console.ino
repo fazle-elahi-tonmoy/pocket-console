@@ -71,5 +71,4 @@ void start_screen_refresh() {
 
 void playNote(int frequency, int duration) {
   tone(buzzer, frequency, duration);
-  // delay(duration + 20); // Add a small delay for spacing between notes
 }
