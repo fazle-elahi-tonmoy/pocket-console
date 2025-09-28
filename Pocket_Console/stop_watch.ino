@@ -5,12 +5,13 @@ void stop_watch() {
   while (1) {
     oled.setTextSize(2);
     drawStop();
-    while (digitalRead(SW))
-      if (push(BW)) return;
-    while (!digitalRead(SW))
-      ;
-resume:
+    while (1) {
+      byte x = push(SW);
+      if (x == 1) break;
+      else if (x == 2) return;
+    }
     m = millis();
+resume:
     while (digitalRead(SW)) {
       time_count();
       drawStop();
@@ -19,15 +20,19 @@ resume:
       ;
 
     while (1) {
-      byte b = push(BW);
-      if (b == 1) {
+      byte b = push(SW);
+      if (b == 2) {
         hour = 0;
         minute = 0;
         second = 0;
         decimal = 0;
         break;
-      } else if (b == 2) return;
-      if (push(SW)) goto resume;
+      }
+
+      else if (b == 1) {
+        m = millis() - decimal * 10;
+        goto resume;
+      }
     }
   }
 }

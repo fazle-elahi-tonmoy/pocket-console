@@ -1,9 +1,9 @@
-int left = down;
-int right = SW;
-int change = BW;
-int speed = up;
-#define WIDTH 64 
-#define HEIGHT 128 
+int left_key = down;
+int right_key = up;
+int change = left;
+int speed = right;
+#define WIDTH 64
+#define HEIGHT 128
 const char pieces_S_l[2][2][4] = { { { 0, 0, 1, 1 }, { 0, 1, 1, 2 } }, { { 0, 1, 1, 2 }, { 1, 1, 0, 0 } } };
 const char pieces_S_r[2][2][4] = { { { 1, 1, 0, 0 }, { 0, 1, 1, 2 } }, { { 0, 1, 1, 2 }, { 0, 0, 1, 1 } } };
 const char pieces_L_l[4][2][4] = { { { 0, 0, 0, 1 }, { 0, 1, 2, 2 } }, { { 0, 1, 2, 2 }, { 1, 1, 1, 0 } }, { { 0, 1, 1, 1 }, { 0, 0, 1, 2 } }, { { 0, 0, 1, 2 }, { 1, 0, 0, 0 } } };
@@ -32,6 +32,7 @@ void tetris() {
   generate();
   timer = millis();
   while (1) {
+    if (push(SW)) ESP.restart();
     if (millis() - timer > interval) {
       checkLines();
       refresh();
@@ -46,7 +47,7 @@ void tetris() {
     }
 
 
-    if (!digitalRead(left)) {
+    if (!digitalRead(left_key)) {
       if (b1) {
         if (!nextHorizontalCollision(piece, -1)) {
           pieceX--;
@@ -57,7 +58,7 @@ void tetris() {
     } else b1 = true;
 
 
-    if (!digitalRead(right)) {
+    if (!digitalRead(right_key)) {
       if (b2) {
         if (!nextHorizontalCollision(piece, 1)) {
           pieceX++;
@@ -250,7 +251,7 @@ short getNumberLength(int n) {
 void drawText(char text[], short length, int x, int y) {
   oled.setTextSize(1);               // Normal 1:1 pixel scale
   oled.setTextColor(SSD1306_WHITE);  // Draw SSD1306_WHITE text
-  oled.setCursor(x, y);              // Start at top-left corner
+  oled.setCursor(x, y);              // Start at top-left_key corner
   oled.cp437(true);                  // Use full 256 char 'Code Page 437' font
   for (short i = 0; i < length; i++)
     oled.write(text[i]);

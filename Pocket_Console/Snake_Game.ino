@@ -2,7 +2,7 @@ short int pos[400] = { 600, 400, 200, 000 };
 short int foodx, foody, dir = 3, len = 4, dl = 100;
 bool eat = 1;
 uint32_t st1;
-bool sb1 = 1, sb2 = 1;
+bool sb1 = 1, sb2 = 1, sb3 = 1, sb4 = 1;
 
 void snake_game() {
   bool menu = 1;
@@ -15,8 +15,8 @@ void snake_game() {
     text("   HARD   ", 04, 50);
     (dl == 100) ? text(">>      <<", 04, 25) : text(">>      <<", 04, 50);
     oled.display();
-    if (digitalRead(up) == LOW) dl = 50;
-    else if (digitalRead(down) == LOW) dl = 100;
+    if (digitalRead(up) == LOW) dl = 100;
+    else if (digitalRead(down) == LOW) dl = 50;
   }
   while (digitalRead(SW) == LOW)
     ;
@@ -44,21 +44,12 @@ r:
         len = 4;
       }
   }
-  while (digitalRead(SW) == LOW)
-    ;
-  while (digitalRead(SW) == HIGH) {
-    oled.clearDisplay();
-    text("GAME PAUSE", 04, 0);
-    text("  RESUME  ", 04, 25);
-    text("   EXIT   ", 04, 50);
-    (menu == 1) ? text(">        <", 04, 25) : text(">        <", 04, 50);
-    oled.display();
-    if (digitalRead(up) == LOW) menu = 0;
-    else if (digitalRead(down) == LOW) menu = 1;
+
+  if (push(SW)) {
+    bool p = game_pause();
+    if (p) goto r;
+    else return;
   }
-  while (digitalRead(SW) == LOW)
-    ;
-  if (menu == 1) goto r;
   len = 4;
 }
 
@@ -95,20 +86,35 @@ void motion() {
 void button() {
   if (!digitalRead(up)) {
     if (sb1) {
-      dir++;
+      if (dir != 4) dir = 2;
       sb1 = 0;
     }
+    delay(10);
   } else sb1 = 1;
 
   if (!digitalRead(down)) {
     if (sb2) {
-      dir--;
+      if (dir != 2) dir = 4;
       sb2 = 0;
     }
+    delay(10);
   } else sb2 = 1;
 
-  if (dir < 1) dir = 4;
-  else if (dir > 4) dir = 1;
+  if (!digitalRead(left)) {
+    if (sb3) {
+      if (dir != 3) dir = 1;
+      sb3 = 0;
+    }
+    delay(10);
+  } else sb3 = 1;
+
+  if (!digitalRead(right)) {
+    if (sb4) {
+      if (dir != 1) dir = 3;
+      sb4 = 0;
+    }
+    delay(10);
+  } else sb4 = 1;
 }
 
 void food() {
@@ -133,11 +139,27 @@ bool game_over(int a) {
     text("              EXIT", 04, 55);
     (menu == 0) ? text(">          <", 04, 55) : text("             >    <", 04, 55);
     oled.display();
-    if (!digitalRead(up)) menu = 1;
-    else if (!digitalRead(down)) menu = 0;
+    if (!digitalRead(left)) menu = 0;
+    else if (!digitalRead(right)) menu = 1;
   }
   while (!digitalRead(SW))
     ;
   oled.setTextSize(2);
   return menu;
+}
+
+bool game_pause() {
+  bool menu = 1;
+  while (1) {
+    oled.clearDisplay();
+    oled.setTextSize(2);
+    text("GAME PAUSE", 04, 0);
+    text("  RESUME  ", 04, 25);
+    text("   EXIT   ", 04, 50);
+    (menu == 1) ? text(">        <", 04, 25) : text(">        <", 04, 50);
+    oled.display();
+    if (digitalRead(down) == LOW) menu = 0;
+    else if (digitalRead(up) == LOW) menu = 1;
+    if (push(SW)) return menu;
+  }
 }

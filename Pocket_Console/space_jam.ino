@@ -7,22 +7,17 @@ void space_jam() {
     u8g2.setFontRefHeightAll();
     st_Setup(u8g2.getU8g2());
 
-    while(!bb) {
-    bb = push(BW);
-      st_Step(y,0,!digitalRead(SW));
+    while (!bb) {
+      bb = push(SW);
+      st_Step(y, 0, !digitalRead(right));
       u8g2.firstPage();
 
       do {
         st_Draw(0);
       } while (u8g2.nextPage());
 
-      if (!digitalRead(down)) {
-        y+=2;
-      }
-
-      if (!digitalRead(up)) {
-        y-=2;
-      }
+      if (!digitalRead(up)) y += 2;
+      if (!digitalRead(down)) y -= 2;
     }
   }
 }

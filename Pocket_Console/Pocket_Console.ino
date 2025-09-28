@@ -3,18 +3,22 @@
 #include "space.h"
 #define FRAME_COUNT (sizeof(animation) / sizeof(animation[0]))
 
-#define SW 26
-#define up 19
-#define down 0
-#define BW 23
-#define indicator 13
-#define buzzer 25
+#define SW 5
+#define BW 12
+#define up 17
+#define down 19
+#define left 16
+#define right 18
+#define indicator 4
+#define buzzer 23
 bool ble_connection = 0;
 int animate = 0;
 uint32_t blink;
 
 void setup() {
   pinMode(SW, INPUT_PULLUP);
+  pinMode(left, INPUT_PULLUP);
+  pinMode(right, INPUT_PULLUP);
   pinMode(up, INPUT_PULLUP);
   pinMode(down, INPUT_PULLUP);
   pinMode(BW, INPUT_PULLUP);
@@ -37,14 +41,13 @@ void loop() {
       if (r == 1) presentation();
       else if (r == 2) media();
       else if (r == 3) steering();
-      else if (r == 4) mouse_scroll();
-      else if (r == 5) stop_watch();
-      else if (r == 6) countdown_timer();
-      else if (r == 7) flappy_bird();
-      else if (r == 8) space_jam();
-      else if (r == 9) snake_game();
-      else if (r == 10) DXBall();
-      else if (r == 11) tetris();
+      else if (r == 4) stop_watch();
+      else if (r == 5) countdown_timer();
+      else if (r == 6) flappy_bird();
+      else if (r == 7) space_jam();
+      else if (r == 8) snake_game();
+      else if (r == 9) DXBall();
+      else if (r == 10) tetris();
       for (int i = 0; i < 4; i++) playNote(returnMelody[i], 70);
     }
   }

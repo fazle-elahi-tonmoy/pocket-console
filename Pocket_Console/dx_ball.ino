@@ -12,10 +12,14 @@ bool enL[brick_count];
 
 void DXBall() {
   bricks();
-  while (!push(BW)) {
-    checkColision();
+  while (1) {
+    if (checkColision()) return;
     checkButtonsGame();
     drawGame();
+    if (push(SW)) {
+      bool x = game_pause();
+      if (x == 0) break;
+    }
   }
   oled.setTextSize(2);
 }
@@ -41,8 +45,8 @@ void drawGame() {
 }
 
 void checkButtonsGame() {
-  if (!digitalRead(down) && playerX > 1) playerX -= 2;
-  if (!digitalRead(up) && playerX < 126 - playerW) playerX += 2;
+  if (!digitalRead(left) && playerX > 1) playerX -= 2;
+  if (!digitalRead(right) && playerX < 126 - playerW) playerX += 2;
 }
 
 void GameReset() {
@@ -54,22 +58,7 @@ void GameReset() {
     enL[i] = 1;
 }
 
-void gameOver() {
-  oled.setTextColor(1);
-  oled.clearDisplay();
-  oled.setTextSize(2);
-  text("GAME OVER", 11, 12);
-  text("SCORE:", 11, 36);
-  oled.print(gameScore);
-  oled.setTextSize(0);
-  oled.display();
-  while (digitalRead(SW))
-    ;
-  gameScore = 0;
-  GameReset();
-}
-
-void checkColision() {
+bool checkColision() {
   if (ballX < 1 || ballX > 126)
     ballDirectionX = ballDirectionX * -1;
   if (ballY < 10)
@@ -91,11 +80,22 @@ void checkColision() {
   ballX = ballX + ballDirectionX;
   ballY = ballY + ballDirectionY;
 
-  if (ballY > 64)
-    gameOver();
+  if (ballY > 64) {
+    bool p = game_over(gameScore);
+    if (p == 0) {
+      gameScore = 0;
+      GameReset();
+    }
 
-  if (gameScore % brick_count == 0 && gameScore)
+    else
+      return 1;
+  }
+
+  if (gameScore % brick_count == 0 && gameScore) {
+    gameScore++;
     GameReset();
+  }
+  return 0;
 }
 
 void bricks() {

@@ -1168,7 +1168,7 @@ void st_Draw(uint8_t fps) {
       u8g2_SetDrawColor(st_u8g2, 1);
       //dog_DrawStrP(0, (st_u8g2->height-6)/2, font_4x6, DOG_PSTR("SpaceTrash"));
       u8g2_DrawStr(st_u8g2, 18, u8g_height_minus_one - (st_u8g2->height - 6) / 2, "Space War Game");
-      u8g2_DrawStr(st_u8g2, 18, u8g_height_minus_one - (st_u8g2->height - 6) / 2 - 15, "  JRC Board  ");
+      u8g2_DrawStr(st_u8g2, 18, u8g_height_minus_one - (st_u8g2->height - 6) / 2 - 15, "  Tech Topia  ");
       //dog_SetHLine(st_u8g2->width-st_to_diff_cnt-10, st_u8g2->width-st_to_diff_cnt, (st_u8g2->height-6)/2-1);
       u8g2_DrawHLine(st_u8g2, st_u8g2->width - st_to_diff_cnt - 10, u8g_height_minus_one - (st_u8g2->height - 6) / 2 + 3, 11);
       break;
